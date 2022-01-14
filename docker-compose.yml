@@ -1,0 +1,33 @@
+# enable docker buildkit and experimental mode
+version: '2.1'
+
+services:
+
+  balena:
+    build: .
+    privileged: true # required
+    volumes:
+      - 'balena:/var/lib/balena-engine'  # optional persistent storage
+    ports:
+      - 2375:2375 # not required for communication between services
+
+  info:
+    image: docker:20.10
+    environment:
+      DOCKER_HOST: tcp://balena:2375
+    command: info
+    depends_on:
+      - balena
+    restart: "no"
+
+  hello-world:
+    image: docker:20.10
+    environment:
+      DOCKER_HOST: tcp://balena:2375
+    command: run hello-world
+    depends_on:
+      - balena
+    restart: "no"
+
+volumes:
+  balena:
