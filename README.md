@@ -15,7 +15,6 @@ docker build . --tag balena-engine
 # OR cross-build for another platform
 export DOCKER_BUILDKIT=1
 export DOCKER_CLI_EXPERIMENTAL=enabled
-docker run --rm --privileged multiarch/qemu-user-static:5.2.0-2 --reset -p yes
 docker build . --tag balena-engine --platform linux/arm/v7
 
 # OR build with docker-compose
@@ -35,9 +34,8 @@ DOCKER_HOST=tcp://127.0.0.1:2375 docker run hello-world
 docker rm --force balena
 
 # OR test with docker-compose
-export COMPOSE_DOCKER_CLI_BUILD=1
-docker-compose up --build info
-docker-compose up --build hello-world
+docker-compose up info
+docker-compose up hello-world
 docker-compose down
 ```
 
